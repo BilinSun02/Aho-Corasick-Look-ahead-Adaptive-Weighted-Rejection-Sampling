@@ -9,14 +9,13 @@ import torch
 base_model_path = "/../your/path/to/DeepSeek-Prover-V1.5-RL"
 
 banned_phrases = [
-    [75, 14523, 349],
-    [284, 14523, 349],
-    [5308, 23400],
-    [9263, 23400],
-    [81171, 425],
-    [291, 75, 14523, 349],
-    [291, 284, 14523, 349],
-    [291, 5308, 23400]
+    [75, 14523, 349],       # 'l' 'inar' 'ith'
+    [284, 14523, 349],      # ' l' 'inar' 'ith'
+    [5308, 23400],          # 'lin' 'arith'
+    [9263, 23400],          # 'linear' 'arith'
+    [81171, 425],           # 'aes' 'op'
+    [291, 75, 14523, 349],  # ' n' 'l' 'inar' 'ith'
+    [291, 5308, 23400]      # ' n' 'lin' 'arith'
 ]
 # ===== End configurable section =====
 
@@ -107,52 +106,11 @@ with tempfile.TemporaryDirectory() as sampler_path:
     inputs = {k: v.to(device) for k, v in inputs.items()}
 
     start_time = time.time()
-    completion = model.generate(inputs['input_ids'], max_length = 1024)
+    completion: torch.Tensor = model.generate(inputs['input_ids'], max_length = 1024)
+    # `completion` is 2D: the outer dimension is for the batch size, and the inner dimension is for the sequence length
     time_used = time.time() - start_time
     print('Completion contents:')
     print(''.join(tokenizer.batch_decode(completion[0].tolist(), skip_special_tokens=True)))
     generation_length = completion.shape[1] - inputs['input_ids'].shape[1]
     print(f'Number of new generated tokens: {generation_length}')
     print(f'Execution time: {time_used} seconds; tokens per second: {generation_length/time_used}')
-    '''"banned_phrases": [
-        [
-            75,
-            14523,
-            349
-        ],
-        [
-            284,   
-            14523,
-            349
-        ],
-        [
-            5308,
-            23400
-        ],
-        [
-            9263,
-            23400
-        ],
-        [
-            81171,
-            425
-        ],
-        [
-            291,
-            75,
-            14523,
-            349
-        ],
-        [
-            291,
-            284,
-            14523,
-            349
-        ],
-        [
-            291,
-            5308,
-            23400
-        ]
-    ]
-}'''
