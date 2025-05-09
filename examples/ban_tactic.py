@@ -70,37 +70,37 @@ with tempfile.TemporaryDirectory() as sampler_path:
     #print(model.visualize_trie())
 
     inputs = tokenizer("""/-- This is a complete Lean 4 proof written by an expert,
-    interspersed with thoughts kept as comments. --/
-    import Mathlib
-    import Aesop
+interspersed with thoughts kept as comments. --/
+import Mathlib
+import Aesop
 
-    set_option maxHeartbeats 0
+set_option maxHeartbeats 0
 
-    open BigOperators Real Nat Topology Rat
+open BigOperators Real Nat Topology Rat
 
-    /-- The second and fourth terms of a geometric sequence are $2$ and $6$. Which of the following is a possible first term?
-    Show that it is $\frac{2\sqrt{3}}{3}$.-/
-    theorem amc12b_2003_p6 (a r : ℝ) (u : ℕ → ℝ) (h₀ : ∀ k, u k = a * r ^ k) (h₁ : u 1 = 2)
-    (h₂ : u 3 = 6) : u 0 = 2 / Real.sqrt 3 ∨ u 0 = -(2 / Real.sqrt 3) := by
-    /-
-    Given a geometric sequence where the second term is 2 and the fourth term is 6, we need to determine a possible first term. Let the first term be \( a \) and the common ratio be \( r \). The terms of the sequence are given by \( u_k = a r^k \).
-    From the given conditions:
-    - The second term \( u_1 = 2 \) implies \( a r = 2 \).
-    - The fourth term \( u_3 = 6 \) implies \( a r^3 = 6 \).
-    We can solve for \( r \) by dividing the equation for the fourth term by the equation for the second term:
-    \[ \frac{a r^3}{a r} = \frac{6}{2} \]
-    \[ r^2 = 3 \]
-    Next, we solve for \( a \) using \( r^2 = 3 \):
-    \[ a r = 2 \]
-    \[ a \sqrt{3} = 2 \]
-    \[ a = \frac{2}{\sqrt{3}} \]
-    Since \( r \) can be positive or negative, the first term \( a \) can also be positive or negative. Therefore, the possible values for \( a \) are \( \frac{2}{\sqrt{3}} \) and \( -\frac{2}{\sqrt{3}} \).
-    -/
-    -- Simplify the given conditions using the geometric sequence formula.
-    simp_all only [h₀, Nat.cast_one, Nat.cast_zero, one_mul, zero_mul]
-    -- Derive the equation for the common ratio r^2 from the given terms.
-    have h₃ : r ^ 2 = 3 := by
-    nfield_simp at h₁ h₂ ⊢
+/-- The second and fourth terms of a geometric sequence are $2$ and $6$. Which of the following is a possible first term?
+Show that it is $\frac{2\sqrt{3}}{3}$.-/
+theorem amc12b_2003_p6 (a r : ℝ) (u : ℕ → ℝ) (h₀ : ∀ k, u k = a * r ^ k) (h₁ : u 1 = 2)
+(h₂ : u 3 = 6) : u 0 = 2 / Real.sqrt 3 ∨ u 0 = -(2 / Real.sqrt 3) := by
+/-
+Given a geometric sequence where the second term is 2 and the fourth term is 6, we need to determine a possible first term. Let the first term be \( a \) and the common ratio be \( r \). The terms of the sequence are given by \( u_k = a r^k \).
+From the given conditions:
+- The second term \( u_1 = 2 \) implies \( a r = 2 \).
+- The fourth term \( u_3 = 6 \) implies \( a r^3 = 6 \).
+We can solve for \( r \) by dividing the equation for the fourth term by the equation for the second term:
+\[ \frac{a r^3}{a r} = \frac{6}{2} \]
+\[ r^2 = 3 \]
+Next, we solve for \( a \) using \( r^2 = 3 \):
+\[ a r = 2 \]
+\[ a \sqrt{3} = 2 \]
+\[ a = \frac{2}{\sqrt{3}} \]
+Since \( r \) can be positive or negative, the first term \( a \) can also be positive or negative. Therefore, the possible values for \( a \) are \( \frac{2}{\sqrt{3}} \) and \( -\frac{2}{\sqrt{3}} \).
+-/
+-- Simplify the given conditions using the geometric sequence formula.
+simp_all only [h₀, Nat.cast_one, Nat.cast_zero, one_mul, zero_mul]
+-- Derive the equation for the common ratio r^2 from the given terms.
+have h₃ : r ^ 2 = 3 := by
+nfield_simp at h₁ h₂ ⊢
     """, return_tensors="pt")
 
     inputs = {k: v.to(device) for k, v in inputs.items()}
