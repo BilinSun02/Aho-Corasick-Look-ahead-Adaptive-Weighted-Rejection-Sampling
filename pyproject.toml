@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "AhoCorasickSampler"
+version = "0.1"
+dependencies = [
+  "transformers",
+]
+authors = [
+  {name = "Billion Sun", email = "billion@ttic.edu"}
+]
+maintainers = [
+  {name = "Billion Sun", email = "billion@ttic.edu"}
+]
+description = "A look-ahead adaptive weight rejection sampler that employs Aho-Corasick to efficiently and correctly ban phrases from LLM generation with minimal performance impacts"
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICEN[CS]E.*"]
+keywords = ["LLM"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+
+[project.urls]
+Repository = "https://github.com/BilinSun02/Aho-Corasick-Look-ahead-Adaptive-Weighted-Rejection-Sampling"
